@@ -1,0 +1,325 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500" role="img" aria-label="Steven Wimberly — holographic profile HUD">
+  <title>Steven Wimberly · Holographic HUD</title>
+  <defs>
+    <!-- ================= GRADIENTS ================= -->
+    <radialGradient id="bgGrad" cx="0.5" cy="0.38" r="0.75">
+      <stop offset="0" stop-color="#04121a"/>
+      <stop offset="0.6" stop-color="#020a10"/>
+      <stop offset="1" stop-color="#01060a"/>
+    </radialGradient>
+    <linearGradient id="holoText" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a8f4ff"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.35" stop-color="#bff7ff"/>
+      <stop offset="0.7" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#0891b2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coreGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panelFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0bd3ee" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#0bd3ee" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#a8f4ff"/>
+    </linearGradient>
+    <linearGradient id="sweep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#7ff3ff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- ================= FILTERS ================= -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowBig" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+
+    <!-- scanline texture -->
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="none"/>
+      <rect width="4" height="1" y="0" fill="#22d3ee" opacity="0.05"/>
+    </pattern>
+    <pattern id="dots" width="34" height="34" patternUnits="userSpaceOnUse">
+      <circle cx="1.4" cy="1.4" r="1.4" fill="#0e4655"/>
+    </pattern>
+
+    <style>
+      text { font-family: 'Consolas','SF Mono','Segoe UI',monospace; }
+      .mono { font-family: 'Consolas','SF Mono',monospace; }
+      @keyframes flick { 0%,100%{opacity:.97} 47%{opacity:1} 48%{opacity:.72} 49%{opacity:1} 71%{opacity:.85} 72%{opacity:1} }
+      @keyframes scanY { 0%{transform:translateY(-60px);opacity:0} 6%{opacity:1} 94%{opacity:1} 100%{transform:translateY(1500px);opacity:0} }
+      @keyframes pulse { 0%,100%{opacity:.55; transform:scale(.92)} 50%{opacity:1; transform:scale(1.06)} }
+      @keyframes pulseSoft { 0%,100%{opacity:.4} 50%{opacity:1} }
+      @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+      @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-960px)} }
+      @keyframes dashmove { to { stroke-dashoffset: -200; } }
+      @keyframes barPulse { 0%,100%{opacity:.65} 50%{opacity:1} }
+      @keyframes rise { 0%{opacity:0; transform:translateY(14px)} 100%{opacity:1; transform:translateY(0)} }
+      @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+      .holo   { animation: flick 6s linear infinite; }
+      .scan   { animation: scanY 8s ease-in-out infinite; }
+      .core   { transform-origin:600px 560px; animation: pulse 3.2s ease-in-out infinite; }
+      .cglow  { transform-origin:600px 560px; animation: pulseSoft 3.2s ease-in-out infinite; }
+      .cursor { animation: blink 1s step-end infinite; }
+      .tick   { animation: ticker 18s linear infinite; }
+      .flow   { stroke-dasharray: 6 10; animation: dashmove 4s linear infinite; }
+      .bp     { animation: barPulse 2.4s ease-in-out infinite; }
+      .node   { transform-box: fill-box; transform-origin:center; animation: pulse 2.6s ease-in-out infinite; }
+      .float  { animation: floatY 5s ease-in-out infinite; }
+      .r1{animation:rise .8s ease-out both} .r2{animation:rise .8s ease-out .15s both}
+      .r3{animation:rise .8s ease-out .3s both} .r4{animation:rise .8s ease-out .45s both}
+    </style>
+  </defs>
+
+  <!-- ===================== BACKDROP ===================== -->
+  <rect width="1200" height="1500" fill="url(#bgGrad)"/>
+  <rect width="1200" height="1500" fill="url(#dots)" opacity="0.5"/>
+  <rect width="1200" height="1500" fill="url(#scanlines)"/>
+
+  <g class="holo">
+
+    <!-- outer HUD frame corner brackets -->
+    <g stroke="#22d3ee" stroke-width="2" fill="none" opacity="0.85" filter="url(#glow)">
+      <path d="M28 74 V32 H70"/>            <path d="M1172 74 V32 H1130"/>
+      <path d="M28 1426 V1468 H70"/>        <path d="M1172 1426 V1468 H1130"/>
+      <path d="M96 32 H150" stroke-width="1" opacity="0.5"/>
+      <path d="M1104 32 H1050" stroke-width="1" opacity="0.5"/>
+    </g>
+    <rect x="32" y="36" width="1136" height="1428" rx="6" fill="none" stroke="#0e5566" stroke-width="1" opacity="0.6"/>
+
+    <!-- ===================== HEADER ===================== -->
+    <text x="70" y="86" class="mono" font-size="15" fill="#3fd0e6" letter-spacing="3" opacity="0.85">◢ J.A.R.V.I.S // PORTFOLIO INTERFACE</text>
+    <text x="1130" y="86" text-anchor="end" class="mono" font-size="15" fill="#3fd0e6" letter-spacing="2" opacity="0.85">SYS.REV 2.0</text>
+
+    <!-- name (holo title with chromatic aberration) -->
+    <g class="r1">
+      <text x="601" y="176" text-anchor="middle" font-size="78" font-weight="800" letter-spacing="6" fill="#ff5a7a" opacity="0.35">STEVEN WIMBERLY</text>
+      <text x="599" y="174" text-anchor="middle" font-size="78" font-weight="800" letter-spacing="6" fill="#3ad2ff" opacity="0.35">STEVEN WIMBERLY</text>
+      <text x="600" y="175" text-anchor="middle" font-size="78" font-weight="800" letter-spacing="6" fill="url(#holoText)" filter="url(#glowBig)">STEVEN WIMBERLY</text>
+    </g>
+    <g class="r2">
+      <line x1="360" y1="200" x2="840" y2="200" stroke="#22d3ee" stroke-width="1.5" opacity="0.6"/>
+      <text x="600" y="232" text-anchor="middle" class="mono" font-size="20" fill="#9fe9f5" letter-spacing="6">ELECTRICAL &amp; COMPUTER ENGINEER · UT AUSTIN '29</text>
+    </g>
+
+    <!-- status readout -->
+    <g class="r3 mono" font-size="15" letter-spacing="1">
+      <circle cx="392" cy="266" r="5" fill="#4ade80" class="node"/>
+      <text x="406" y="271" fill="#7fe9a6">SYSTEM ONLINE</text>
+      <circle cx="600" cy="266" r="5" fill="#22d3ee" class="node"/>
+      <text x="614" y="271" fill="#8fe6f2">AVAILABLE: SUMMER 2027</text>
+      <circle cx="828" cy="266" r="5" fill="#fbbf24" class="node"/>
+      <text x="842" y="271" fill="#f7d68a">3 ACTIVE BUILDS</text>
+    </g>
+
+    <!-- typewriter boot line -->
+    <g class="mono" font-size="15" fill="#3fd0e6">
+      <text x="70" y="316">&gt; initializing hardware.core ... <tspan fill="#4ade80">OK</tspan> · loading schematics ...</text>
+      <rect x="655" y="303" width="9" height="16" fill="#22d3ee" class="cursor"/>
+    </g>
+
+    <!-- ===================== ARC REACTOR CORE ===================== -->
+    <g transform="translate(0,0)">
+      <!-- ambient glow -->
+      <circle cx="600" cy="560" r="210" fill="url(#coreGlow)" class="cglow"/>
+
+      <!-- outer tick ring (rotating) -->
+      <circle cx="600" cy="560" r="196" fill="none" stroke="#1c8ea3" stroke-width="10" stroke-dasharray="2 12" opacity="0.7">
+        <animateTransform attributeName="transform" type="rotate" from="0 600 560" to="360 600 560" dur="46s" repeatCount="indefinite"/>
+      </circle>
+      <!-- dashed ring (counter-rotating) -->
+      <circle cx="600" cy="560" r="172" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="34 22" opacity="0.8" filter="url(#glow)">
+        <animateTransform attributeName="transform" type="rotate" from="360 600 560" to="0 600 560" dur="30s" repeatCount="indefinite"/>
+      </circle>
+      <!-- segmented arcs -->
+      <g fill="none" stroke="#7ff3ff" stroke-width="3" opacity="0.9" filter="url(#glow)">
+        <path d="M600 412 A148 148 0 0 1 728 486"/>
+        <path d="M748 634 A148 148 0 0 1 600 708"/>
+        <path d="M452 634 A148 148 0 0 1 472 486"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 600 560" to="360 600 560" dur="22s" repeatCount="indefinite"/>
+      </g>
+      <!-- inner nodes ring -->
+      <g filter="url(#glow)">
+        <g>
+          <circle cx="600" cy="452" r="5" fill="#a8f4ff"/>
+          <circle cx="708" cy="560" r="5" fill="#a8f4ff"/>
+          <circle cx="600" cy="668" r="5" fill="#a8f4ff"/>
+          <circle cx="492" cy="560" r="5" fill="#a8f4ff"/>
+          <circle cx="676" cy="484" r="3.5" fill="#22d3ee"/>
+          <circle cx="676" cy="636" r="3.5" fill="#22d3ee"/>
+          <circle cx="524" cy="636" r="3.5" fill="#22d3ee"/>
+          <circle cx="524" cy="484" r="3.5" fill="#22d3ee"/>
+          <animateTransform attributeName="transform" type="rotate" from="0 600 560" to="-360 600 560" dur="26s" repeatCount="indefinite"/>
+        </g>
+      </g>
+      <!-- reactor triangle motif -->
+      <g fill="none" stroke="#bff7ff" stroke-width="2.5" opacity="0.9" filter="url(#glow)">
+        <path d="M600 486 L664 596 L536 596 Z"/>
+        <path d="M600 512 L642 584 L558 584 Z" opacity="0.6"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 600 560" to="120 600 560" dur="9s" repeatCount="indefinite" additive="sum"/>
+      </g>
+      <!-- glowing core -->
+      <circle cx="600" cy="560" r="70" fill="url(#core)" class="core"/>
+      <circle cx="600" cy="560" r="30" fill="#ffffff" opacity="0.9" filter="url(#glowBig)" class="core"/>
+
+      <!-- orbiting skill labels around reactor -->
+      <g class="mono" font-size="14" fill="#8fe6f2" filter="url(#glow)">
+        <g class="float"><text x="600" y="352" text-anchor="middle">KiCad</text></g>
+        <g class="float" style="animation-delay:.6s"><text x="838" y="470" text-anchor="middle">STM32 · ARM</text></g>
+        <g class="float" style="animation-delay:1.2s"><text x="852" y="668" text-anchor="middle">SystemVerilog</text></g>
+        <g class="float" style="animation-delay:1.8s"><text x="600" y="784" text-anchor="middle">C / C++</text></g>
+        <g class="float" style="animation-delay:2.4s"><text x="352" y="668" text-anchor="middle">LTspice</text></g>
+        <g class="float" style="animation-delay:3s"><text x="348" y="470" text-anchor="middle">Python</text></g>
+      </g>
+      <!-- connector ticks from labels toward core -->
+      <g stroke="#1c8ea3" stroke-width="1" opacity="0.5">
+        <line x1="600" y1="360" x2="600" y2="392"/>
+        <line x1="770" y1="486" x2="742" y2="500"/>
+        <line x1="430" y1="486" x2="458" y2="500"/>
+      </g>
+    </g>
+
+    <!-- ===================== PROJECT HUD PANELS ===================== -->
+    <g class="mono">
+      <!-- PANEL 1 : POWER DISTRIBUTION BOARD (PCB) -->
+      <g class="r2">
+        <rect x="85" y="820" width="330" height="330" rx="8" fill="url(#panelFill)" stroke="#22d3ee" stroke-width="1.5" opacity="0.95"/>
+        <path d="M85 852 H415" stroke="#22d3ee" stroke-width="1" opacity="0.6"/>
+        <path d="M95 828 h14 M405 828 h-14 M95 1142 h14 M405 1142 h-14" stroke="#7ff3ff" stroke-width="2"/>
+        <text x="102" y="844" font-size="15" fill="#a8f4ff" letter-spacing="1">01 · POWER DISTRIBUTION BOARD</text>
+        <!-- PCB wireframe -->
+        <g transform="translate(250,955)" stroke="#22d3ee" fill="none" filter="url(#glow)">
+          <rect x="-95" y="-60" width="190" height="120" rx="6" stroke-width="1.5" opacity="0.9"/>
+          <rect x="-30" y="-22" width="60" height="44" stroke="#a8f4ff" stroke-width="1.5"/>
+          <g stroke="#7ff3ff" stroke-width="1" opacity="0.85">
+            <path d="M-30 -10 H-78 M-30 4 H-70 M30 -6 H72 M30 10 H80"/>
+            <path d="M-95 -40 h20 v-8 M95 40 h-20 v8"/>
+          </g>
+          <g fill="#a8f4ff" stroke="none">
+            <circle cx="-78" cy="-10" r="2.4"/><circle cx="-70" cy="4" r="2.4"/>
+            <circle cx="72" cy="-6" r="2.4"/><circle cx="80" cy="10" r="2.4"/>
+            <circle cx="-95" cy="-48" r="2.4"/><circle cx="95" cy="48" r="2.4"/>
+          </g>
+          <!-- scan sweep across board -->
+          <line x1="-95" y1="0" x2="95" y2="0" stroke="#eafcff" stroke-width="2" opacity="0.8">
+            <animateTransform attributeName="transform" type="translate" values="0 -58; 0 58; 0 -58" dur="3.4s" repeatCount="indefinite"/>
+          </line>
+        </g>
+        <text x="102" y="1080" font-size="13" fill="#7fd8e6">buck 5V/3.3V · current sense</text>
+        <text x="102" y="1100" font-size="12" fill="#3fa9bd">TARGET: autonomous drone</text>
+        <rect x="102" y="1114" width="296" height="5" rx="2.5" fill="#0e3a44"/>
+        <rect x="102" y="1114" width="220" height="5" rx="2.5" fill="url(#barGrad)" class="bp"/>
+      </g>
+
+      <!-- PANEL 2 : RISC-V CPU -->
+      <g class="r3">
+        <rect x="435" y="820" width="330" height="330" rx="8" fill="url(#panelFill)" stroke="#22d3ee" stroke-width="1.5" opacity="0.95"/>
+        <path d="M435 852 H765" stroke="#22d3ee" stroke-width="1" opacity="0.6"/>
+        <path d="M445 828 h14 M755 828 h-14 M445 1142 h14 M755 1142 h-14" stroke="#7ff3ff" stroke-width="2"/>
+        <text x="452" y="844" font-size="15" fill="#a8f4ff" letter-spacing="1">02 · PIPELINED RISC-V CPU</text>
+        <!-- CPU wireframe -->
+        <g transform="translate(600,955)" stroke="#22d3ee" fill="none" filter="url(#glow)">
+          <rect x="-70" y="-70" width="140" height="140" rx="4" stroke-width="1.5"/>
+          <g stroke="#7ff3ff" stroke-width="1.5">
+            <path d="M-70 -45 h-16 M-70 -15 h-16 M-70 15 h-16 M-70 45 h-16"/>
+            <path d="M70 -45 h16 M70 -15 h16 M70 15 h16 M70 45 h16"/>
+            <path d="M-45 -70 v-16 M-15 -70 v-16 M15 -70 v-16 M45 -70 v-16"/>
+            <path d="M-45 70 v16 M-15 70 v16 M15 70 v16 M45 70 v16"/>
+          </g>
+          <rect x="-34" y="-34" width="68" height="68" stroke="#a8f4ff" stroke-width="1.5"/>
+          <g stroke="#0e6b7d" stroke-width="1" opacity="0.9">
+            <path d="M-34 -12 H34 M-34 12 H34 M-12 -34 V34 M12 -34 V34"/>
+          </g>
+          <circle cx="0" cy="0" r="9" fill="#bff7ff" stroke="none" class="core"/>
+          <text x="0" y="60" text-anchor="middle" font-size="12" fill="#7ff3ff" stroke="none">RV32I</text>
+        </g>
+        <text x="452" y="1080" font-size="13" fill="#7fd8e6">RV32I core · SystemVerilog</text>
+        <text x="452" y="1100" font-size="12" fill="#3fa9bd">TARGET: FPGA</text>
+        <rect x="452" y="1114" width="296" height="5" rx="2.5" fill="#0e3a44"/>
+        <rect x="452" y="1114" width="176" height="5" rx="2.5" fill="url(#barGrad)" class="bp"/>
+      </g>
+
+      <!-- PANEL 3 : AUTONOMOUS DRONE -->
+      <g class="r4">
+        <rect x="785" y="820" width="330" height="330" rx="8" fill="url(#panelFill)" stroke="#22d3ee" stroke-width="1.5" opacity="0.95"/>
+        <path d="M785 852 H1115" stroke="#22d3ee" stroke-width="1" opacity="0.6"/>
+        <path d="M795 828 h14 M1105 828 h-14 M795 1142 h14 M1105 1142 h-14" stroke="#7ff3ff" stroke-width="2"/>
+        <text x="802" y="844" font-size="15" fill="#a8f4ff" letter-spacing="1">03 · AUTONOMOUS DRONE</text>
+        <!-- drone wireframe -->
+        <g transform="translate(950,955)" stroke="#22d3ee" fill="none" filter="url(#glow)">
+          <line x1="-64" y1="-64" x2="64" y2="64" stroke-width="3" opacity="0.7"/>
+          <line x1="64" y1="-64" x2="-64" y2="64" stroke-width="3" opacity="0.7"/>
+          <rect x="-22" y="-22" width="44" height="44" rx="4" stroke="#a8f4ff" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="6" fill="#7ff3ff" stroke="none" class="node"/>
+          <!-- rotors (spinning) -->
+          <g stroke="#7ff3ff" stroke-width="1.5">
+            <g><ellipse cx="-64" cy="-64" rx="26" ry="7"/><animateTransform attributeName="transform" type="rotate" from="0 -64 -64" to="360 -64 -64" dur="0.5s" repeatCount="indefinite"/></g>
+            <g><ellipse cx="64" cy="-64" rx="26" ry="7"/><animateTransform attributeName="transform" type="rotate" from="0 64 -64" to="-360 64 -64" dur="0.5s" repeatCount="indefinite"/></g>
+            <g><ellipse cx="-64" cy="64" rx="26" ry="7"/><animateTransform attributeName="transform" type="rotate" from="0 -64 64" to="-360 -64 64" dur="0.5s" repeatCount="indefinite"/></g>
+            <g><ellipse cx="64" cy="64" rx="26" ry="7"/><animateTransform attributeName="transform" type="rotate" from="0 64 64" to="360 64 64" dur="0.5s" repeatCount="indefinite"/></g>
+          </g>
+          <g stroke="#0e6b7d" stroke-width="1"><circle cx="-64" cy="-64" r="30"/><circle cx="64" cy="-64" r="30"/><circle cx="-64" cy="64" r="30"/><circle cx="64" cy="64" r="30"/></g>
+        </g>
+        <text x="802" y="1080" font-size="13" fill="#7fd8e6">3 custom PCBs · GPS autonomy</text>
+        <text x="802" y="1100" font-size="12" fill="#3fa9bd">FC · POWER · SENSOR</text>
+        <rect x="802" y="1114" width="296" height="5" rx="2.5" fill="#0e3a44"/>
+        <rect x="802" y="1114" width="130" height="5" rx="2.5" fill="url(#barGrad)" class="bp"/>
+      </g>
+    </g>
+
+    <!-- ===================== EXPERIENCE TIMELINE ===================== -->
+    <g class="mono">
+      <text x="70" y="1216" font-size="15" fill="#3fd0e6" letter-spacing="3">◢ MISSION LOG</text>
+      <line x1="180" y1="1300" x2="1020" y2="1300" stroke="#22d3ee" stroke-width="1.5" class="flow" opacity="0.8"/>
+      <g filter="url(#glow)">
+        <!-- node 1 -->
+        <circle cx="250" cy="1300" r="8" fill="#22d3ee" class="node"/>
+        <text x="250" y="1272" text-anchor="middle" font-size="15" fill="#a8f4ff">2024</text>
+        <text x="250" y="1332" text-anchor="middle" font-size="13" fill="#7fd8e6">MIT PSFC</text>
+        <text x="250" y="1350" text-anchor="middle" font-size="11" fill="#3fa9bd">Research Intern</text>
+        <!-- node 2 -->
+        <circle cx="600" cy="1300" r="8" fill="#22d3ee" class="node"/>
+        <text x="600" y="1272" text-anchor="middle" font-size="15" fill="#a8f4ff">2026</text>
+        <text x="600" y="1332" text-anchor="middle" font-size="13" fill="#7fd8e6">Kurtin Robotics</text>
+        <text x="600" y="1350" text-anchor="middle" font-size="11" fill="#3fa9bd">Robotics Eng. Intern</text>
+        <!-- node 3 -->
+        <circle cx="950" cy="1300" r="9" fill="#4ade80" class="node"/>
+        <text x="950" y="1272" text-anchor="middle" font-size="15" fill="#bbf7d0">NOW</text>
+        <text x="950" y="1332" text-anchor="middle" font-size="13" fill="#9fe9c0">Texas Spacecraft Lab</text>
+        <text x="950" y="1350" text-anchor="middle" font-size="11" fill="#57b98a">EPS Engineer</text>
+      </g>
+    </g>
+
+    <!-- ===================== FOOTER TICKER ===================== -->
+    <g>
+      <rect x="32" y="1404" width="1136" height="34" fill="#061820" opacity="0.7"/>
+      <line x1="32" y1="1404" x2="1168" y2="1404" stroke="#22d3ee" stroke-width="1" opacity="0.5"/>
+      <clipPath id="tickClip"><rect x="40" y="1404" width="1120" height="34"/></clipPath>
+      <g clip-path="url(#tickClip)">
+        <g class="tick mono" font-size="14" fill="#5fd2e6">
+          <text x="48" y="1426">PCB DESIGN ▪ EMBEDDED SYSTEMS ▪ POWER ELECTRONICS ▪ ARM CORTEX-M ▪ SYSTEMVERILOG ▪ KiCad ▪ LTspice ▪ FUSION 360 ▪ RISC-V ▪ &#160;&#160;</text>
+          <text x="960" y="1426">PCB DESIGN ▪ EMBEDDED SYSTEMS ▪ POWER ELECTRONICS ▪ ARM CORTEX-M ▪ SYSTEMVERILOG ▪ KiCad ▪ LTspice ▪ FUSION 360 ▪ RISC-V ▪ &#160;&#160;</text>
+        </g>
+      </g>
+    </g>
+
+  </g><!-- /holo -->
+
+  <!-- ===================== GLOBAL SCAN SWEEP ===================== -->
+  <rect x="32" y="0" width="1136" height="70" fill="url(#sweep)" class="scan" opacity="0.5"/>
+</svg>
