@@ -3,14 +3,7 @@
 
 <img src="./hologram.svg" alt="Steven Wimberly — Electrical &amp; Computer Engineer at UT Austin ('29). Currently building a drone power-distribution board, a pipelined RISC-V CPU, and an autonomous drone. Experience: MIT PSFC, Kurtin Robotics, Texas Spacecraft Laboratory." width="100%"/>
 
-<br/>
-
-[![Portfolio](https://img.shields.io/badge/PORTFOLIO-stevenwimberly.github.io-22d3ee?style=for-the-badge&labelColor=05121a)](https://stevenwimberly.github.io)
-[![LinkedIn](https://img.shields.io/badge/LINKEDIN-steven--wimberly-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=05121a)](https://linkedin.com/in/steven-wimberly-38854a222)
-[![Email](https://img.shields.io/badge/EMAIL-smw4789%40my.utexas.edu-EA4335?style=for-the-badge&logo=gmail&logoColor=white&labelColor=05121a)](mailto:smw4789@my.utexas.edu)
-[![Status](https://img.shields.io/badge/AVAILABLE-Summer%202027-4ade80?style=for-the-badge&labelColor=05121a)](mailto:smw4789@my.utexas.edu)
-
-**Featured builds** &nbsp;·&nbsp; [EGSE_Board](https://github.com/stevenwimberly/EGSE_Board) &nbsp;·&nbsp; [flight_preparation_panel](https://github.com/stevenwimberly/flight_preparation_panel) &nbsp;·&nbsp; [Buzz](https://github.com/stevenwimberly/Buzz)
+<sub>◢ <b>CLICKABLE LINKS</b> &nbsp; [Portfolio](https://stevenwimberly.github.io) &nbsp;·&nbsp; [LinkedIn](https://linkedin.com/in/steven-wimberly-38854a222) &nbsp;·&nbsp; [Email](mailto:smw4789@my.utexas.edu) &nbsp;·&nbsp; [GitHub](https://github.com/stevenwimberly) &nbsp;·&nbsp; [EGSE_Board](https://github.com/stevenwimberly/EGSE_Board) &nbsp;·&nbsp; [flight_preparation_panel](https://github.com/stevenwimberly/flight_preparation_panel) &nbsp;·&nbsp; [Buzz](https://github.com/stevenwimberly/Buzz)</sub>
 
 </div>
 
