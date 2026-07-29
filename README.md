@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./banner.svg" alt="Steven Wimberly — Electrical &amp; Computer Engineer, UT Austin" width="100%"/>
+
 # Steven Wimberly
 
 **Electrical & Computer Engineering · UT Austin · Class of 2029**
